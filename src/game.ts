@@ -69,3 +69,4 @@ class Game {
 }
 
 let g = new Game()
+console.log("Prototype 2")

@@ -43,7 +43,7 @@ export class Fish extends PIXI.Sprite {
         this.texture  = this.deadTexture
 
         if (this.texture = this.deadTexture){
-            
+            console.log("A fish died")
         }
     }
 }
