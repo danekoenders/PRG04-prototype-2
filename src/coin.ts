@@ -2,9 +2,9 @@ import * as PIXI from 'pixi.js'
 
 export class Coin extends PIXI.Sprite {
     
-    deadTexture : PIXI.Texture
+    private deadTexture : PIXI.Texture
     private speed : number
-    
+
      constructor(texture: PIXI.Texture) {
         super(texture)
         this.speed = 1 + (Math.random() * 2)
@@ -34,15 +34,6 @@ export class Coin extends PIXI.Sprite {
 
     coinClicked() {
         console.log("Dont touch me!")
-        this.rotation = 0
         this.texture = this.deadTexture
-    }
-
-    public hitCar () {
-        this.texture  = this.deadTexture
-
-        if (this.texture = this.deadTexture){
-            
-        }
     }
 }

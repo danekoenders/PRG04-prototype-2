@@ -3,7 +3,6 @@ import * as PIXI from 'pixi.js'
 import coinImage from "./images/coin.png"
 import highwayImage from "./images/highway.jpg"
 import carImage from "./images/car.png"
-import bonesImage from "./images/bones.png"
 
 import { Coin } from "./coin"
 import { Car } from "./car"
@@ -13,8 +12,8 @@ class Game {
     private loader : PIXI.Loader
     private coins : Coin[] = []
     private car : Car
-
-    constructor(){
+    
+    constructor() {
         this.pixi = new PIXI.Application({ width: window.innerWidth, height: (window.innerHeight - 90)})
         const pixiCanvas = document.getElementById("pixi-canvas")
 
@@ -34,11 +33,11 @@ class Game {
 
     private loadCompleted() {
 
-    let bg = new PIXI.TilingSprite(this.loader.resources["backgroundTexture"].texture!, 1200, 700)
-    this.pixi.stage.addChild(bg)
-    bg.scale.set (1.7)
+        let bg = new PIXI.TilingSprite(this.loader.resources["backgroundTexture"].texture!, 1200, 700)
+        this.pixi.stage.addChild(bg)
+        bg.scale.set (1.7)
 
-        for (let i=0; i<50; i++){
+        for (let i=0; i<20; i++){
             let lonelyCoin = new Coin(this.loader.resources["coinTexture"].texture!)
             this.pixi.stage.addChild(lonelyCoin)
             this.coins.push(lonelyCoin)
@@ -47,18 +46,20 @@ class Game {
         this.car = new Car(this.loader.resources["carTexture"].texture!)
         this.pixi.stage.addChild(this.car)
 
-        this.pixi.ticker.add(() => this.updateAnimations(devicePixelRatio))
+        this.pixi.ticker.add(() => this.checkCollision(devicePixelRatio))
     }
 
-    private updateAnimations(delta : number){
+    private checkCollision(delta : number){
         for (let coin of this.coins) {
             coin.thrive() 
-            if (this.collision(this.car, coin )) coin.hitCar()
+            if (this.collision(this.car, coin)) {
+                this.hitCar(coin)
+            }
         }
         this.car.thrive()
-     }
+    }
 
-     private collision(car:PIXI.Sprite, coin:PIXI.Sprite) {
+    private collision(car:PIXI.Sprite, coin:PIXI.Sprite) {
         const bounds1 = car.getBounds()
         const bounds2 = coin.getBounds()
 
@@ -66,8 +67,13 @@ class Game {
             && bounds1.x + bounds1.width > bounds2.x
             && bounds1.y < bounds2.y + bounds2.height
             && bounds1.y + bounds1.height > bounds2.y;
-    }    
+    }
+
+    public hitCar(coin: Coin) {
+        this.coins = this.coins.filter(f => f != coin)
+        coin.destroy()
+    }
 }
 
 let g = new Game()
-console.log("Prototype 2")
+console.log("Prototype 3")
