@@ -76,4 +76,4 @@ class Game {
 }
 
 let g = new Game()
-console.log("Prototype 3")
+console.log("Prototype 2")
